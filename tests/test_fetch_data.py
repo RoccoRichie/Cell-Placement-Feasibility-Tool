@@ -219,6 +219,49 @@ class TestDownloadWithProgress:
             _download_with_progress("http://example.com/bad", str(tmp_path / "x"), "Test")
 
 
+class TestCleanup:
+    """Tests for intermediate file cleanup in fetch_all."""
+
+    @patch("src.fetch_data.fetch_corine_land_cover")
+    @patch("src.fetch_data.fetch_dem")
+    @patch("src.fetch_data.fetch_osm_ireland")
+    @patch("src.fetch_data.fetch_coastline")
+    def test_removes_dem_tiles_dir(self, m1, m2, m3, m4, tmp_path):
+        from src.fetch_data import fetch_all
+        (tmp_path / "dem_tiles").mkdir()
+        (tmp_path / "dem_tiles" / "tile.tif").write_text("fake")
+        fetch_all(str(tmp_path))
+        assert not (tmp_path / "dem_tiles").exists()
+
+    @patch("src.fetch_data.fetch_corine_land_cover")
+    @patch("src.fetch_data.fetch_dem")
+    @patch("src.fetch_data.fetch_osm_ireland")
+    @patch("src.fetch_data.fetch_coastline")
+    def test_removes_osm_zip(self, m1, m2, m3, m4, tmp_path):
+        from src.fetch_data import fetch_all
+        (tmp_path / "ireland-osm.shp.zip").write_text("fake")
+        fetch_all(str(tmp_path))
+        assert not (tmp_path / "ireland-osm.shp.zip").exists()
+
+    @patch("src.fetch_data.fetch_corine_land_cover")
+    @patch("src.fetch_data.fetch_dem")
+    @patch("src.fetch_data.fetch_osm_ireland")
+    @patch("src.fetch_data.fetch_coastline")
+    def test_removes_natural_earth_zip(self, m1, m2, m3, m4, tmp_path):
+        from src.fetch_data import fetch_all
+        (tmp_path / "ne_10m_admin_0_countries.zip").write_text("fake")
+        fetch_all(str(tmp_path))
+        assert not (tmp_path / "ne_10m_admin_0_countries.zip").exists()
+
+    @patch("src.fetch_data.fetch_corine_land_cover")
+    @patch("src.fetch_data.fetch_dem")
+    @patch("src.fetch_data.fetch_osm_ireland")
+    @patch("src.fetch_data.fetch_coastline")
+    def test_no_error_when_intermediates_missing(self, m1, m2, m3, m4, tmp_path):
+        from src.fetch_data import fetch_all
+        fetch_all(str(tmp_path))  # should not raise
+
+
 class TestProgressBar:
     """Tests for _progress_bar."""
 

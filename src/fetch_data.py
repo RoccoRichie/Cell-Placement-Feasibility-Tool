@@ -266,6 +266,16 @@ def fetch_all(data_dir: str = DATA_DIR):
     print()
     fetch_corine_land_cover(data_dir)
 
+    # Clean up intermediate files
+    import shutil
+    for name in ["dem_tiles", "ireland-osm.shp.zip", "ne_10m_admin_0_countries.zip"]:
+        path = os.path.join(data_dir, name)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        elif os.path.isfile(path):
+            os.remove(path)
+    logger.info("  🧹 Cleaned up intermediate files")
+
     elapsed = time.time() - start
     print()
     print(f"{'━' * 58}")
