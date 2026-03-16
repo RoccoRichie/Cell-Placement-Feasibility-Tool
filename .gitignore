@@ -1,0 +1,16 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# Data (downloaded at runtime)
+data/
+logs/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
