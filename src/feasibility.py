@@ -160,11 +160,13 @@ class FeasibilityChecker:
             elev = dem.read(1, window=window)
             if elev.shape != (3, 3):
                 return None
-            res = dem.res[0]
+            # Convert pixel resolution from degrees to meters
+            res_deg = dem.res[0]
+            res_m = res_deg * 111320 * np.cos(np.radians(lat))
             dzdx = ((elev[0, 2] + 2 * elev[1, 2] + elev[2, 2]) -
-                     (elev[0, 0] + 2 * elev[1, 0] + elev[2, 0])) / (8 * res)
+                     (elev[0, 0] + 2 * elev[1, 0] + elev[2, 0])) / (8 * res_m)
             dzdy = ((elev[2, 0] + 2 * elev[2, 1] + elev[2, 2]) -
-                     (elev[0, 0] + 2 * elev[0, 1] + elev[0, 2])) / (8 * res)
+                     (elev[0, 0] + 2 * elev[0, 1] + elev[0, 2])) / (8 * res_m)
             slope_rad = np.arctan(np.sqrt(dzdx**2 + dzdy**2))
             return float(np.degrees(slope_rad))
         except Exception:

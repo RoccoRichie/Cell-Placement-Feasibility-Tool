@@ -1,22 +1,28 @@
 """Example usage of the cell placement feasibility checker."""
 from src.feasibility import FeasibilityChecker
 
-# Sample candidate locations in southern Ireland
+# Sample candidate locations across Ireland
 candidates = [
-    (51.8969, -8.4863),   # Cork city centre — should PASS
-    (51.7700, -9.7500),   # Kenmare Bay (ocean) — should FAIL
-    (51.9500, -9.5700),   # Lough Leane, Killarney — should FAIL (lake)
-    (52.0600, -9.5100),   # Killarney National Park — should FAIL (protected)
-    (51.8500, -8.3000),   # Rural area east of Cork — should PASS
-    (51.5000, -9.9000),   # Atlantic Ocean off Mizen Head — should FAIL
-    (52.1400, -7.1100),   # Waterford area — should PASS
-    (51.7000, -10.2000),  # Skellig Michael area (ocean) — should FAIL
+    # --- Should PASS ---
+    (51.8986, -8.4706),   # Cork city — urban area
+    (53.3498, -6.2603),   # Dublin city centre
+    (52.6638, -8.6267),   # Limerick city
+    (52.2593, -7.1128),   # Waterford city
+    (54.2766, -8.4761),   # Sligo town
+    (53.2707, -9.0568),   # Galway city
+    # --- Should FAIL ---
+    (51.5000, -9.9000),   # Atlantic Ocean off Mizen Head
+    (51.7000, -10.2000),  # Skellig Michael area (ocean)
+    (51.9930, -9.5400),   # Lough Leane, Killarney (lake)
+    (53.4800, -9.1700),   # Lough Corrib (lake)
+    (52.0150, -9.5050),   # Killarney National Park (protected)
+    (53.2400, -7.6000),   # Clara Bog, Offaly (peat bog)
 ]
 
 checker = FeasibilityChecker()
 
 print("=" * 70)
-print("CELL PLACEMENT FEASIBILITY REPORT — Southern Ireland")
+print("CELL PLACEMENT FEASIBILITY REPORT — Ireland")
 print("=" * 70)
 
 results = checker.filter_candidates(candidates)
