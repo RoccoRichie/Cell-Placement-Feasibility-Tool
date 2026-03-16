@@ -12,8 +12,8 @@ Validates telecom cell placement locations against geospatial data to prevent pl
 ### 1. Create a Python virtual environment
 
 ```bash
-git clone https://github.com/<your-org>/cell-placement-tool.git
-cd cell-placement-tool
+git clone https://github.com/RoccoRichie/Cell-Placement-Feasibility-Tool.git
+cd Cell-Placement-Feasibility-Tool
 
 python3 -m venv venv
 source venv/bin/activate
